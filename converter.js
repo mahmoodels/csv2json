@@ -25,7 +25,7 @@ fs.readFile(path.join(__dirname, inputFile), (err, data) => {
         }
     });
 
-    let fileNameWithoutExt = inputFile.split('.')[0];
+    let fileNameWithoutExt = inputFile.substr(0,inputFile.lastIndexOf('.'));
     console.log(fileNameWithoutExt);
 
     fs.writeFile(path.join(__dirname, `${fileNameWithoutExt}.json`), JSON.stringify(res, null, 2), (err) => {
