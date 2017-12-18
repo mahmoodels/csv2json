@@ -19,7 +19,7 @@ fs.readFile(path.join(__dirname, 'customer-data.csv'), (err, data) => {
             res[res.length] = nod;
         }
     });
-    fs.writeFile(path.join(__dirname, 'customer-data.json'), JSON.stringify(res), (err) => {
+    fs.writeFile(path.join(__dirname, 'customer-data.json'), JSON.stringify(res,null,2), (err) => {
         if (err)
             return console.error(err);
         else
