@@ -1,8 +1,11 @@
 const path = require('path');
 const fs = require('fs');
 
+let inputFile = process.argv[2];
+if (inputFile == '')
+    inputFile = 'customer-data';
 
-fs.readFile(path.join(__dirname, 'customer-data.csv'), (err, data) => {
+fs.readFile(path.join(__dirname, inputFile), (err, data) => {
     if (err)
         return console.error(err);
 
@@ -10,16 +13,22 @@ fs.readFile(path.join(__dirname, 'customer-data.csv'), (err, data) => {
     var arr = csv.split(/\r?\n/);
     var res = [];
     arr.forEach((elmnt, ind) => {
-        if (ind == 0) { }
-        else {
+        if (ind !== 0) {
             let nod = {};
-            for (let i = 0; i < arr[0].split(',').length; i++) {
-                nod[arr[0].split(',')[i]] = elmnt.split(',')[i];
+            let columnsCount = arr[0].split(',').length;
+            for (let i = 0; i < columnsCount; i++) {
+                let keyName = arr[0].split(',')[i];
+                let keyValue = elmnt.split(',')[i]
+                nod[keyName] = keyValue;
             }
-            res[res.length] = nod;
+            res.push(nod);
         }
     });
-    fs.writeFile(path.join(__dirname, 'customer-data.json'), JSON.stringify(res,null,2), (err) => {
+
+    let fileNameWithoutExt = inputFile.split('.')[0];
+    console.log(fileNameWithoutExt);
+
+    fs.writeFile(path.join(__dirname, `${inputFile}.json`), JSON.stringify(res, null, 2), (err) => {
         if (err)
             return console.error(err);
         else
